@@ -12,27 +12,26 @@ public class Main {
             leituraArquivo.realizarLeitura();
             System.out.println(listaLogradouro.existe(caminhoArquivo));
             while (true) {
-                System.out.println("Select an option:");
-                System.out.println("1. Navegue pelas ruas");
-                System.out.println("2. Rua com mais sinalizacao");
-                System.out.println("3. Mais meses da rua");
+                System.out.println("Selecione uma opcao:");
+                System.out.println("1. Navegar pelas ruas");
+                System.out.println("2. Rua/Av/Trav com mais sinalizacoes");
+                System.out.println("3. Mes com mais sinalizacoes implantadas");
+                System.out.println("4. Sair do programa");
 
                 int option = scanner.nextInt();
 
                 switch (option) {
                     case 1:
                         System.out.println(listaLogradouro);
-
-                        System.out.println("Entre o nome da rua");
+                        System.out.println("Insira a Rua/Av/Trav de onde gostaria de partir:");
                         scanner.nextLine();
                         String nomeLogradouro = scanner.nextLine();
-
                         if (listaLogradouro.existe(nomeLogradouro)) {
                             Logradouro logradouro = listaLogradouro.obterLogradouro(nomeLogradouro);
                             ListaSinalizacoes listaSinalizacoes = logradouro.getListaSinalizacoes();
 
                             if (listaSinalizacoes.getQuantidade() == 0) {
-                                System.out.println("No signalizations registered.");
+                                System.out.println("Nenhuma sinalizacao registrada.");
                                 break;
                             }
 
@@ -42,8 +41,7 @@ public class Main {
                                 System.out.println("rua " + nomeLogradouro);
                                 System.out.println("sinalizacoes " + listaSinalizacoes.getQuantidade());
                                 System.out.println("sinalizacao " + sinalizacaoAtual);
-
-                                System.out.println("selecione opcao");
+                                System.out.println("selecione a opcao");
                                 System.out.println("1. proxima sinalizacao");
                                 System.out.println("2. sair");
 
@@ -68,14 +66,19 @@ public class Main {
                         break;
 
                     case 3:
-                        System.out.println("entre nome da rua");
+                        System.out.println("Informe a rua/avenida/travessa para consultar:");
                         scanner.nextLine();
                         nomeLogradouro = scanner.nextLine();
-                        String mesesMaisSinalizacoes = leituraArquivo.obterMesesMaisSinalizacoes(nomeLogradouro);
-                        System.out.println(
-                                "mes com mais sinalizacoes " + nomeLogradouro + ": " + mesesMaisSinalizacoes);
+                        String mesMaisSinalizacoes = listaLogradouro.obterMesMaisSinalizacoes(nomeLogradouro);
+                        if (mesMaisSinalizacoes != null) {
+                            System.out.println("Mês com mais sinalizações implantadas em " + nomeLogradouro + ": "
+                                    + mesMaisSinalizacoes);
+                        } else {
+                            System.out.println("Não foram encontradas sinalizações para " + nomeLogradouro);
+                        }
                         break;
-
+                    case 4:
+                        return;
                     default:
                         System.out.println("opcao invalida");
                 }

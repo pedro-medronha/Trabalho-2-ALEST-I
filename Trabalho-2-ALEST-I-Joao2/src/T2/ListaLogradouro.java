@@ -35,7 +35,7 @@ public class ListaLogradouro {
     public Logradouro obterLogradouro(String nome) {
         if (nome != null) {
             for (Nodo n = inicio.proximo; n != fim; n = n.proximo) {
-                if (n.logradouro.getNome().equals(nome)) {
+                if (n.logradouro.getNome().equalsIgnoreCase(nome)) {
                     return n.logradouro;
                 }
             }
@@ -45,8 +45,8 @@ public class ListaLogradouro {
 
     public boolean existe(String nomeLogradouro) {
         if (nomeLogradouro != null) {
-            for (Nodo nodo = inicio.proximo; nodo != fim; nodo = nodo.proximo) {
-                if (nodo.logradouro.getNome().equals(nomeLogradouro)) {
+            for (Nodo nodo = inicio; nodo != null; nodo = nodo.proximo) {
+                if (nodo.logradouro != null && nodo.logradouro.getNome().equalsIgnoreCase(nomeLogradouro)) {
                     return true;
                 }
             }
@@ -72,6 +72,7 @@ public class ListaLogradouro {
         newNodo.proximo = fim;
         inicio.proximo = newNodo;
         fim.anterior = newNodo;
+        quantidade++;
     }
 
     private void adicionarNoFinal(Logradouro logradouro) {
@@ -82,6 +83,7 @@ public class ListaLogradouro {
         newNodo.anterior = lastNodo;
         newNodo.proximo = fim;
         fim.anterior = newNodo;
+        quantidade++;
     }
 
     public void atualizar(Logradouro logradouro) {

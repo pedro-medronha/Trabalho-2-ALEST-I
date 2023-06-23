@@ -1,6 +1,9 @@
 package T2;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Sinalizacao {
     public String descricao;
@@ -17,20 +20,28 @@ public class Sinalizacao {
     private Sinalizacao proximo;
     private Sinalizacao anterior;
 
-    public Sinalizacao(String descricao, String estado, String complemento, LocalDateTime dataImplantacao,
-            String numeroInicial, String numeroFinal, String defronte, String cruzamentoNome, String lado,
-            String fluxo, String localDeInstalacao) {
+    public Sinalizacao(int anoDataExtracao, int mesDataExtracao, int diaDataExtracao, int horaDataExtracao,
+            int minDataExtracao, String descricao, String estado, String complemento, int diaImplantacao,
+            int mesImplantacao, int anoImplantacao, String localInstalacao, String fluxo, String lado,
+            String cruzamento, String defronte, double numInicial, double numFinal) {
         this.descricao = descricao;
         this.estado = estado;
         this.complemento = complemento;
-        this.dataImplantacao = dataImplantacao;
-        this.numeroInicial = numeroInicial;
-        this.numeroFinal = numeroFinal;
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate dataImplantacao = LocalDate
+                    .parse(String.format("%02d/%02d/%04d", diaImplantacao, mesImplantacao, anoImplantacao), formatter);
+            this.dataImplantacao = dataImplantacao.atTime(horaDataExtracao, minDataExtracao);
+        } catch (DateTimeParseException e) {
+            System.out.println("Formato de data inválido: " + e.getMessage());
+        }
+        this.numeroInicial = Double.toString(numInicial);
+        this.numeroFinal = Double.toString(numFinal);
         this.defronte = defronte;
-        this.cruzamentoNome = cruzamentoNome;
+        this.cruzamentoNome = cruzamento;
         this.lado = lado;
         this.fluxo = fluxo;
-        this.localDeInstalacao = localDeInstalacao;
+        this.localDeInstalacao = localInstalacao;
         this.proximo = null;
     }
 
@@ -53,5 +64,4 @@ public class Sinalizacao {
     public void setAnterior(Sinalizacao anterior) {
         this.anterior = anterior;
     }
-
 }

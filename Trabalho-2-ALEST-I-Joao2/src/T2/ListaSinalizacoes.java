@@ -1,5 +1,7 @@
 package T2;
 
+import java.time.format.DateTimeFormatter;
+
 public class ListaSinalizacoes {
     private Sinalizacao inicio;
     private Sinalizacao fim;
@@ -57,5 +59,20 @@ public class ListaSinalizacoes {
             return sinalizacaoAtual.getAnterior();
         }
         return null;
+    }
+
+    public int contarSinalizacoesMes(String mesAno) {
+        int quantidadeSinalizacoes = 0;
+        Sinalizacao sinalizacao = inicio;
+
+        while (sinalizacao != null) {
+            String mesAnoSinalizacao = sinalizacao.getDataImplantacao().format(DateTimeFormatter.ofPattern("MM/yyyy"));
+            if (mesAno.equals(mesAnoSinalizacao)) {
+                quantidadeSinalizacoes++;
+            }
+            sinalizacao = sinalizacao.getProximo();
+        }
+
+        return quantidadeSinalizacoes;
     }
 }

@@ -31,7 +31,7 @@ public class Logradouro {
         this.anterior = anterior;
         this.proximo = proximo;
         this.nome = nome;
-        this.listaSinalizacoes = new ListaSinalizacoes();
+        this.listaSinalizacoes = listaSinalizacoes;
         this.tipo = tipo;
     }
 
@@ -62,4 +62,5 @@ public class Logradouro {
     public String getTipo() {
         return this.tipo;
     }
+    
 }
