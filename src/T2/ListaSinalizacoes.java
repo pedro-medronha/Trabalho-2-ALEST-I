@@ -1,65 +1,61 @@
 package T2;
 
-import java.time.LocalDateTime;
-
 public class ListaSinalizacoes {
-    private int quantidade;
     private Sinalizacao inicio;
     private Sinalizacao fim;
+    private int quantidade;
 
     public ListaSinalizacoes() {
-        this.quantidade = 0;
-        this.inicio = null;
-        this.fim = null;
-    }
-
-    private void adicionarRecursivo(Sinalizacao novaSinalizacao, Sinalizacao aux) {
-        LocalDateTime auxDate = aux.getDataImplantacao();
-        LocalDateTime dataNova = novaSinalizacao.getDataImplantacao();
-
-        if (dataNova.isBefore(auxDate) || dataNova.isEqual(auxDate)) {
-            novaSinalizacao.setProximo(aux);
-
-            if (aux.equals(this.inicio)) {
-                this.inicio = novaSinalizacao;
-            }
-        } else if (aux.equals(this.fim)) {
-            aux.setProximo(novaSinalizacao);
-            this.fim = novaSinalizacao;
-        } else if (dataNova.isAfter(auxDate)) {
-            adicionarRecursivo(novaSinalizacao, aux.getProximo());
-        }
-    }
-
-    public void adicionar(Sinalizacao novaSinalizacao) {
-        if (this.estaVazia()) {
-            this.inicio = novaSinalizacao;
-            this.fim = novaSinalizacao;
-        } else {
-            adicionarRecursivo(novaSinalizacao, this.inicio);
-        }
-        this.quantidade++;
+        inicio = null;
+        fim = null;
+        quantidade = 0;
     }
 
     public boolean estaVazia() {
-        return (this.quantidade == 0);
-    }
-
-    public void esvaziarLista() {
-        this.inicio = null;
-        this.fim = null;
-        this.quantidade = 0;
+        return quantidade == 0;
     }
 
     public int getQuantidade() {
         return quantidade;
     }
 
+    public void adicionar(Sinalizacao sinalizacao) {
+        if (sinalizacao != null) {
+            if (estaVazia()) {
+                inicio = sinalizacao;
+                fim = sinalizacao;
+            } else {
+                fim.setProximo(sinalizacao);
+                sinalizacao.setAnterior(fim);
+                fim = sinalizacao;
+            }
+            quantidade++;
+        }
+    }
+
     public Sinalizacao getInicio() {
-        return this.inicio;
+        return inicio;
     }
 
     public Sinalizacao getFim() {
-        return this.fim;
+        return fim;
+    }
+
+    public Sinalizacao getUltimaSinalizacao() {
+        return fim;
+    }
+
+    public Sinalizacao obterProximaSinalizacao(Sinalizacao sinalizacaoAtual) {
+        if (sinalizacaoAtual != null) {
+            return sinalizacaoAtual.getProximo();
+        }
+        return null;
+    }
+
+    public Sinalizacao obterSinalizacaoAnterior(Sinalizacao sinalizacaoAtual) {
+        if (sinalizacaoAtual != null) {
+            return sinalizacaoAtual.getAnterior();
+        }
+        return null;
     }
 }

@@ -15,6 +15,7 @@ public class Sinalizacao {
     public String fluxo;
     public String localDeInstalacao;
     private Sinalizacao proximo;
+    private Sinalizacao anterior;
 
     public Sinalizacao(String descricao, String estado, String complemento, LocalDateTime dataImplantacao,
             String numeroInicial, String numeroFinal, String defronte, String cruzamentoNome, String lado,
@@ -44,4 +45,13 @@ public class Sinalizacao {
     public void setProximo(Sinalizacao proximo) {
         this.proximo = proximo;
     }
+
+    public Sinalizacao getAnterior() {
+        return anterior;
+    }
+
+    public void setAnterior(Sinalizacao anterior) {
+        this.anterior = anterior;
+    }
+
 }

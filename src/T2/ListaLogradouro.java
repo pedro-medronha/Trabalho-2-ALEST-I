@@ -9,6 +9,7 @@ public class ListaLogradouro {
     private Nodo fim;
     private Nodo inicio;
     private int quantidade;
+    private Map<String, Logradouro> logradouros;
 
     public ListaLogradouro() {
         inicio = new Nodo(null);
@@ -16,6 +17,7 @@ public class ListaLogradouro {
         fim.anterior = inicio;
         inicio.proximo = fim;
         quantidade = 0;
+        logradouros = new HashMap<>();
     }
 
     public class Nodo {
@@ -28,7 +30,6 @@ public class ListaLogradouro {
             this.logradouro = l;
             this.listaSinalizacoes = new ListaSinalizacoes();
         }
-
     }
 
     public Logradouro obterLogradouro(String nome) {
@@ -60,15 +61,13 @@ public class ListaLogradouro {
             } else {
                 adicionarNoFinal(logradouro);
             }
-            quantidade++;
+            logradouros.put(logradouro.getNome(), logradouro);
         }
     }
 
     private void adicionarPrimeiroNodo(Logradouro logradouro) {
         Nodo newNodo = new Nodo(logradouro);
-        if (newNodo.listaSinalizacoes == null) {
-            newNodo.listaSinalizacoes = new ListaSinalizacoes();
-        }
+        newNodo.listaSinalizacoes = logradouro.getListaSinalizacoes(); // Assign the ListaSinalizacoes object
         newNodo.anterior = inicio;
         newNodo.proximo = fim;
         inicio.proximo = newNodo;
@@ -77,9 +76,7 @@ public class ListaLogradouro {
 
     private void adicionarNoFinal(Logradouro logradouro) {
         Nodo newNodo = new Nodo(logradouro);
-        if (newNodo.listaSinalizacoes == null) {
-            newNodo.listaSinalizacoes = new ListaSinalizacoes();
-        }
+        newNodo.listaSinalizacoes = logradouro.getListaSinalizacoes(); // Assign the ListaSinalizacoes object
         Nodo lastNodo = fim.anterior;
         lastNodo.proximo = newNodo;
         newNodo.anterior = lastNodo;
@@ -99,14 +96,18 @@ public class ListaLogradouro {
     }
 
     public String obterLogradouroComMaisSinalizacoes() {
-        int maxSinalizacoes = 0;
-        String logradouroComMaisSinalizacoes = "";
+        if (logradouros.isEmpty()) {
+            return null;
+        }
 
-        for (Nodo nodo = inicio.proximo; nodo != fim; nodo = nodo.proximo) {
-            int quantidadeSinalizacoes = nodo.listaSinalizacoes.getQuantidade();
-            if (quantidadeSinalizacoes > maxSinalizacoes) {
-                maxSinalizacoes = quantidadeSinalizacoes;
-                logradouroComMaisSinalizacoes = nodo.logradouro.getNome();
+        String logradouroComMaisSinalizacoes = null;
+        int maxSignalizations = 0;
+
+        for (Logradouro logradouro : logradouros.values()) {
+            int signalizations = logradouro.getListaSinalizacoes().getQuantidade();
+            if (signalizations > maxSignalizations) {
+                maxSignalizations = signalizations;
+                logradouroComMaisSinalizacoes = logradouro.getNome();
             }
         }
 
