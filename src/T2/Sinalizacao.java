@@ -1,10 +1,12 @@
 package T2;
 
+import java.time.LocalDateTime;
+
 public class Sinalizacao {
     public String descricao;
     public String estado;
     public String complemento;
-    public String dataImplantacao;
+    public LocalDateTime dataImplantacao;
     public String numeroInicial;
     public String numeroFinal;
     public String defronte;
@@ -14,9 +16,9 @@ public class Sinalizacao {
     public String localDeInstalacao;
     private Sinalizacao proximo;
 
-    public Sinalizacao(String descricao, String estado, String complemento, String dataImplantacao,
-            String numeroInicial, String numeroFinal, String defronte, String cruzamentoNome, String lado, String fluxo,
-            String localDeInstalacao, Sinalizacao proximo) {
+    public Sinalizacao(String descricao, String estado, String complemento, LocalDateTime dataImplantacao,
+            String numeroInicial, String numeroFinal, String defronte, String cruzamentoNome, String lado,
+            String fluxo, String localDeInstalacao) {
         this.descricao = descricao;
         this.estado = estado;
         this.complemento = complemento;
@@ -28,7 +30,11 @@ public class Sinalizacao {
         this.lado = lado;
         this.fluxo = fluxo;
         this.localDeInstalacao = localDeInstalacao;
-        this.proximo = proximo;
+        this.proximo = null;
+    }
+
+    public LocalDateTime getDataImplantacao() {
+        return dataImplantacao;
     }
 
     public Sinalizacao getProximo() {

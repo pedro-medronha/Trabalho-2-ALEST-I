@@ -31,7 +31,7 @@ public class Logradouro {
         this.anterior = anterior;
         this.proximo = proximo;
         this.nome = nome;
-        this.listaSinalizacoes = listaSinalizacoes;
+        this.listaSinalizacoes = new ListaSinalizacoes();
         this.tipo = tipo;
     }
 
@@ -53,6 +53,9 @@ public class Logradouro {
     }
 
     public ListaSinalizacoes getListaSinalizacoes() {
+        if (listaSinalizacoes == null) {
+            listaSinalizacoes = new ListaSinalizacoes();
+        }
         return listaSinalizacoes;
     }
 

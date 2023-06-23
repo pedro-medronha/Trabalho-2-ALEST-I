@@ -1,13 +1,12 @@
 package T2;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
 
-// incrementar esta classe de leitura do arquivo
 public class LeituraArquivo {
     private ListaLogradouro listaLogradouro;
     private String caminhoArquivo;
@@ -15,25 +14,25 @@ public class LeituraArquivo {
     public LeituraArquivo(ListaLogradouro listaLogradouro, String caminhoArquivo) {
         this.listaLogradouro = listaLogradouro;
         this.caminhoArquivo = caminhoArquivo;
-
     }
 
     public void realizarLeitura() {
-        File arquivoCSV = new File(caminhoArquivo);
         int linhasLidas = 0;
-        try {
-            Scanner leitor = new Scanner(arquivoCSV);
-            leitor.nextLine(); // pula primeira linha
-            while (leitor.hasNextLine()) {
-                String linha = leitor.nextLine();
+        try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha = br.readLine(); // Skip header line
+            while ((linha = br.readLine()) != null) {
                 String[] colunas = linha.split(";");
-                processarLinha(colunas);
-                linhasLidas++;
+                if (colunas.length >= 13) { // Ensure the line has enough columns
+                    processarLinha(colunas);
+                    linhasLidas++;
+                } else {
+                    System.out.println("Invalid line format: " + linha);
+                }
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(linhasLidas);
+        System.out.println("Linhas lidas: " + linhasLidas);
     }
 
     private void processarLinha(String[] colunas) {
@@ -53,41 +52,51 @@ public class LeituraArquivo {
         int mesImplantacao = 0;
         int diaImplantacao = 0;
         if (!colunas[4].equals("")) {
-            if (colunas[4].contains("-"))
+            String dateValue = colunas[4];
+            if (dateValue.contains("-")) {
                 formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            else
+            } else {
                 formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate date = LocalDate.parse(colunas[4], formatter);
+            }
+            LocalDate date = LocalDate.parse(dateValue, formatter);
             anoImplantacao = date.getYear();
             mesImplantacao = date.getMonthValue();
             diaImplantacao = date.getDayOfMonth();
         }
+
         String logradouroTipo = colunas[5].split(" ", 2)[0];
         String logradouroNome = colunas[5].split(" ", 2)[1];
 
         double numInicial;
-        if (colunas[6].equals(""))
+        if (colunas[6].equals("")) {
             numInicial = 0;
-        else
+        } else {
             numInicial = Double.parseDouble(colunas[6]);
+        }
 
         double numFinal;
-        if (colunas[7].equals(""))
+        if (colunas[7].equals("")) {
             numFinal = 0;
-        else
+        } else {
             numFinal = Double.parseDouble(colunas[7]);
+        }
 
         String defronte = colunas[8];
         String cruzamento = colunas[9];
         String lado = colunas[10];
+
         String fluxo = "";
-        if (colunas.length >= 12)
+        if (colunas.length >= 12) {
             fluxo = colunas[11];
+        }
+
         String localInstalacao = "";
-        if (colunas.length >= 13)
+        if (colunas.length >= 13) {
             localInstalacao = colunas[12];
+        }
 
         Logradouro logradouro = new Logradouro(logradouroTipo, logradouroNome);
         listaLogradouro.atualizar(logradouro);
     }
+
 }
