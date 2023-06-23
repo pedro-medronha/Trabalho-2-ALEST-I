@@ -68,7 +68,7 @@ public class Main {
 
             case 3:
                 System.out.println("entre nome da rua");
-                scanner.nextLine(); // Consume the newline character
+                scanner.nextLine();
                 nomeLogradouro = scanner.nextLine();
                 String mesesMaisSinalizacoes = leituraArquivo.obterMesesMaisSinalizacoes(nomeLogradouro);
                 System.out.println(

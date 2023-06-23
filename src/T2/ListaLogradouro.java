@@ -67,7 +67,7 @@ public class ListaLogradouro {
 
     private void adicionarPrimeiroNodo(Logradouro logradouro) {
         Nodo newNodo = new Nodo(logradouro);
-        newNodo.listaSinalizacoes = logradouro.getListaSinalizacoes(); // Assign the ListaSinalizacoes object
+        newNodo.listaSinalizacoes = logradouro.getListaSinalizacoes();
         newNodo.anterior = inicio;
         newNodo.proximo = fim;
         inicio.proximo = newNodo;
@@ -76,7 +76,7 @@ public class ListaLogradouro {
 
     private void adicionarNoFinal(Logradouro logradouro) {
         Nodo newNodo = new Nodo(logradouro);
-        newNodo.listaSinalizacoes = logradouro.getListaSinalizacoes(); // Assign the ListaSinalizacoes object
+        newNodo.listaSinalizacoes = logradouro.getListaSinalizacoes();
         Nodo lastNodo = fim.anterior;
         lastNodo.proximo = newNodo;
         newNodo.anterior = lastNodo;
